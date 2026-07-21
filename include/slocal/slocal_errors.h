@@ -1,0 +1,14 @@
+#ifndef SLOCAL_ERRORS_H
+#define SLOCAL_ERRORS_H
+
+typedef enum e_slocal_error
+{
+	SLOCAL_OK = 0,
+	SLOCAL_ERR,
+	SLOCAL_MALLOC_ERR,
+	SLOCAL_VDF_READ_FILE_ERR,
+	SLOCAL_VDF_PARSE_ERR,
+	SLOCAL_WORDEXP_ERR,
+} SLocalError;
+
+#endif
