@@ -2,6 +2,7 @@
 #include "slocal/slocal_errors.h"
 #include <stdio.h>
 #include <string.h>
+#include <vdfc/node.h>
 #include <vdfc/parser.h>
 #include <vdfc/vdf.h>
 #include <wordexp.h>
@@ -63,7 +64,7 @@ static SLocalError _slocal_fill_login_info(SLocalLoginInfo *login_info, VDFNode 
 
 	login_info->steamid64 = strtoull(user->key, NULL, 10);
 	login_info->accountid = (unsigned int) (login_info->steamid64 - 76561197960265728ULL);
-	login_info->last_login = atol(vdf_get_string(user, "Timestamp", "0"));
+	login_info->last_login = vdf_get_long(user, "Timestamp", 0);
 	login_info->is_most_recent = vdf_get_bool(user, "MostRecent", 0);
 
 	account_name = vdf_get_string(user, "AccountName", "");
