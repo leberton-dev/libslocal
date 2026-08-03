@@ -1,5 +1,6 @@
 #include "slocal/slocal_data.h"
 #include "slocal/slocal_errors.h"
+#include "slocal/slocal_internal.h"
 #include <stdio.h>
 #include <string.h>
 #include <vdfc/node.h>
@@ -17,23 +18,6 @@ static SLocalError _slocal_expand_home_path(const char *path, char **out)
 	wordfree(&p);
 	if (!*out)
 		return (SLOCAL_MALLOC_ERR);
-	return (SLOCAL_OK);
-}
-
-static SLocalError _slocal_read_and_parse_vdf(const char *path, VDFNode **out_node)
-{
-	char   *out;
-	size_t  out_size;
-	VDFcode err;
-
-	err = vdf_read_file(path, &out, &out_size);
-	if (err != VDF_OK)
-		return (SLOCAL_VDF_READ_FILE_ERR);
-
-	err = vdf_parse(out, out_node);
-	free(out);
-	if (err != VDF_OK)
-		return (SLOCAL_VDF_PARSE_ERR);
 	return (SLOCAL_OK);
 }
 
@@ -88,7 +72,7 @@ static SLocalError _slocal_add_user_info_to_data(SLocalData *data)
 	if (err != SLOCAL_OK)
 		return (err);
 
-	err = _slocal_read_and_parse_vdf(expanded_path, &node);
+	err = slocal_read_and_parse_vdf(expanded_path, &node);
 	free(expanded_path);
 	if (err != SLOCAL_OK)
 		return (err);

@@ -1,5 +1,5 @@
 NAME = libsteamlocal.a
-SRCS = src/init.c
+SRCS = src/init.c src/apps.c src/internal.c
 OBJDIR = build
 OBJS = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
@@ -9,7 +9,8 @@ LDFLAGS = -lvdfc
 INCLUDE = -I./include
 AR = ar rcs
 RM = rm -rf
-HEADER = include/slocal/slocal.h include/slocal/slocal_data.h include/slocal/slocal_errors.h
+HEADER = include/slocal/slocal.h include/slocal/slocal_data.h include/slocal/slocal_errors.h \
+		 include/slocal/slocal_internal.h include/slocal/slocal_apps.h
 
 TEST_SRC =
 TEST_BIN = $(OBJDIR)/test_runner
