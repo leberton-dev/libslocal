@@ -4,11 +4,12 @@ OBJDIR = build
 OBJS = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lvdfc
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lvdfc
 INCLUDE = -I./include
 AR = ar rcs
 RM = rm -rf
-HEADER =
+HEADER = include/slocal/slocal.h include/slocal/slocal_data.h include/slocal/slocal_errors.h
 
 TEST_SRC =
 TEST_BIN = $(OBJDIR)/test_runner
@@ -34,8 +35,12 @@ fclean: clean
 re: fclean all
 
 test: $(NAME) | $(OBJDIR)
-	@$(CC) -fsanitize=address $(CRITERION_FLAGS) $(CFLAGS) $(INCLUDE) -I./test $(TEST_SRC) $(SRCS) -o $(TEST_BIN)
+	@$(CC) -fsanitize=address $(CFLAGS) $(INCLUDE) -I./test $(TEST_SRC) $(SRCS) -o $(TEST_BIN) $(CRITERION_FLAGS) $(LDFLAGS)
 	@ASAN_OPTIONS=abort_on_error=1 ./$(TEST_BIN)
+
+simple_test: $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDE) test/fixtures/main_for_testing.c $(NAME) -o $(OBJDIR)/t $(LDFLAGS)
+	$(OBJDIR)/t
 
 install: $(NAME)
 	source scripts/install.sh && _install
@@ -45,4 +50,4 @@ uninstall:
 
 
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test simple_test

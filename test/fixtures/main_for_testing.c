@@ -3,12 +3,14 @@
 
 void print_login_info_context(SLocalLoginInfo *info)
 {
+	printf("\n\n=== PRINTING LOGIN INFO ===\n\n");
 	printf("SteamId: %llu\n", info->steamid64);
-	printf("AccountId: %lu\n", info->accountid);
+	printf("AccountId: %u\n", info->accountid);
 	printf("AccountName: %s\n", info->account_name);
 	printf("PersonaName: %s\n", info->persona_name);
 	printf("LastLogin: %ld\n", info->last_login);
 	printf("IsMostRecent: %d\n", info->is_most_recent);
+	printf("\n\n");
 }
 
 int main(void)
@@ -21,7 +23,6 @@ int main(void)
 	{
 		return (err);
 	}
-	printf("slocal retuned %d\n", err);
 
 	print_login_info_context(data->login_info);
 
